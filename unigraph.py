@@ -29,39 +29,6 @@ class graphql_class:
         
     def get_pair_id(self,token0,toekn1):
         pass
-#        query whereClause{
-#  exchanges(where: {tokenSymbol:"WBTC"}) {
-#    id
-#    price
-#    priceUSD
-#    tokenName
-#    ethBalance
-#    tokenAddress
-#    tokenBalance
-#    ethLiquidity
-#    tokenLiquidity
-#    tokenSymbol
-#    tradeVolumeEth
-#  }
-#}
-#     
-#
-#
-#  pairs(first: 10, where: {reserveUSD_gt: "1000000", volumeUSD_gt: "50000"}, orderBy: reserveUSD, orderDirection: desc) {
-#    id
-#    token0 {
-#      id
-#      symbol
-#    }
-#    token1 {
-#      id
-#      symbol
-#    }
-#    reserveUSD
-#    volumeUSD
-#  }
-#}
-
    
     def get_active_pairs(self):
         
