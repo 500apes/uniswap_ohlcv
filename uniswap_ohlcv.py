@@ -91,7 +91,7 @@ class graphql_class:
         
         while True:
             query = """query {
-                         swaps(first: 1000 where: { timestamp_gt:"""+str(start_timestamp)+""" ,pair: """+str(pair)+""" } orderBy: timestamp, orderDirection: asc) {
+                         swaps(first: 1000 where: { timestamp_gt:"""+str(start_timestamp)+""" ,pair: \""""+str(pair)+"""\" } orderBy: timestamp, orderDirection: asc) {
                           transaction {
                             id
                             timestamp
@@ -126,7 +126,7 @@ class graphql_class:
 
                 df["volume"] = df["amountUSD"].astype(float)
             except:
-                print("Broke or finished")
+                print("Finished.. (or broke)")
                 break
 
             start_timestamp = max(df['timestamp'].astype(int))
@@ -140,9 +140,14 @@ class graphql_class:
             
             self._volume = self._volume.append(df_vol)
             self._price = self._price.append(df_price)
+            
+            if self._verbose == True:
+                print("Scraping from date:",pd.to_datetime(start_timestamp, unit='s'))
         
     def get_ohlcv(self,days=5,timescale='5min',pair="0xa478c2975ab1ea89e8196811f51a7b7ade33eb11"):
-  
+        """
+        Bundles raw price data into ohlcv on timescale "timescale"
+        """
         self._download_price(days) #---scrape raw price data from Uniswap Graph
 
         df3 = self._price.resample(timescale,  axis=0).ohlc().ffill()
@@ -159,7 +164,8 @@ class graphql_class:
        # self.ohlcv = self.ohlcv[~self.ohlcv.index.duplicated()]
        
         if self._verbose:
-           self._print_daterange()
+            print("OHLCV data generated and saved")
+            self._print_daterange()
 
 
 
