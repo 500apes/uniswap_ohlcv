@@ -28,6 +28,9 @@ class graphql_class:
         
         
     def get_pair_id(self,token0,toekn1):
+        """
+        Add functionalty later
+        """
         pass
    
     def get_active_pairs(self):
