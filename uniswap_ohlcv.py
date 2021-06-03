@@ -19,16 +19,15 @@ class graphql_class:
     def __str__(self):
          return "Uniswap graphql interface"
      
-    def __init__(self):
+    def __init__(self,verbose=False):
         
         self.url = "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2"
         self.ohlcv = pd.DataFrame()
         self._volume = pd.DataFrame()
         self._price = pd.DataFrame()
+        self._verbose = verbose
         
-        
-        
-    def get_pair_id(self,token0,toekn1):
+    def get_pair_id(self,token0,token1):
         """
         Add functionalty later
         """
@@ -92,7 +91,7 @@ class graphql_class:
         
         while True:
             query = """query {
-                         swaps(first: 1000 where: { timestamp_gt:"""+str(start_timestamp)+""" ,pair: """+pair+""" } orderBy: timestamp, orderDirection: asc) {
+                         swaps(first: 1000 where: { timestamp_gt:"""+str(start_timestamp)+""" ,pair: """+str(pair)+""" } orderBy: timestamp, orderDirection: asc) {
                           transaction {
                             id
                             timestamp
@@ -115,7 +114,7 @@ class graphql_class:
                 df_data = json_data['data']['swaps']
             except:
                 print("Bad data.. sleep and try again")
-              #  print("bad data:",json_data)
+                print("bad data:",json_data)
                 time.sleep(10)
                 continue
             
@@ -144,7 +143,7 @@ class graphql_class:
         
     def get_ohlcv(self,days=5,timescale='5min',pair="0xa478c2975ab1ea89e8196811f51a7b7ade33eb11"):
   
-        gql._download_price(days)
+        self._download_price(days) #---scrape raw price data from Uniswap Graph
 
         df3 = self._price.resample(timescale,  axis=0).ohlc().ffill()
         df4 = self._volume.resample(timescale).agg({"volume":'sum'})
@@ -158,12 +157,10 @@ class graphql_class:
   
         self.ohlcv = ohlcv
        # self.ohlcv = self.ohlcv[~self.ohlcv.index.duplicated()]
+       
+        if self._verbose:
+           self._print_daterange()
 
-gql = graphql_class()
-
-gql.get_ohlcv(days=3,timescale="5min")
-gql._print_daterange()
-gql.save_csv("test.csv")
 
 
 
