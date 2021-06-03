@@ -59,30 +59,6 @@ class graphql_class:
         except:
             print("Bad csv write: ",sys.exc_info()[0],"occured.")
 
-        #print(self.ohlcv)
-        
-        
-#        if filename != None:
-#            self.load_ohlcv_csv(filename)
-#            
-#            if len(self.ohlcv) > 0:
-#                first_csv_timestamp = self.ohlcv['date'].iloc[0]
-#                last_csv_timestamp = self.ohlcv['date'].iloc[-1]
-#
-#                self._print_daterange()
-#    
-#                if start_timestamp < first_csv_timestamp:
-#                    self.ohlcv = pd.DataFrame()
-#                else:
-#                    start_timestamp = last_csv_timestamp
-        
-#        df.resample('1H').agg({'open': 'first', 
-#                                 'high': 'max', 
-#                                 'low': 'min', 
-#                                 'close': 'last',
-#                                 'volume': 'sum'})
-#        
-        
         
     def _print_daterange(self):
         
